@@ -27,8 +27,14 @@ In this code, we provide two ways to visualize cross-modality attention.
 ### Binary Map Visualization
 ![](figures/oa_visualize_2.jpg)
 
+Please refer to [visualization.md](visualization.md) for details.
 
-## 4. Citation
+
+## News:
+- 2021.12.5 Arxiv Version Published.
+- 2022.3.15 First version Code Released.
+
+## 5. Citation
 
 If you find our work helpful, please cite our paper
 ```bash
