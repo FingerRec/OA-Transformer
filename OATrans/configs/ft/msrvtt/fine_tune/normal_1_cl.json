@@ -1,0 +1,99 @@
+{
+    "name": "MSRVTTjsfusion_4f_stformer_pt-im21k",
+    "n_gpu": 8,
+    "linear_evaluation": false,
+    "arch": {
+        "type": "FrozenInTime",
+        "stream": 2,
+        "object": false,
+        "args": {
+            "video_params": {
+                "model": "SpaceTimeTransformer",
+                "arch_config": "base_patch16_224",
+                "num_frames": 4,
+                "pretrained": true,
+                "time_init": "zeros",
+                "two_outputs": false,
+                "object_pseudo_label": false
+            },
+            "object_params": {
+                "model": "",
+                "input_objects": false
+            },
+            "text_params": {
+                "model": "pretrained/distilbert-base-uncased",
+                "pretrained": true,
+                "input": "text",
+                "two_outputs": false
+            },
+            "projection": "minimal",
+            "load_checkpoint": "exps/2stream_wtags/models/full-WebVid2M-1f-pti2k/0106_180724/checkpoint-epoch3.pth"
+       }
+    },
+    "data_loader":
+    [
+        {
+        "type": "TextObjectVideoDataLoader",
+        "args":{
+            "dataset_name": "MSRVTT",
+            "data_dir": "MSRVTT/",
+            "object_dir": "MSRVTT/region_features_full/",
+            "shuffle": true,
+            "num_workers": 8,
+            "batch_size": 64,
+            "split": "train",
+            "cut": "jsfusion",
+            "subsample": 1,
+            "text_params": {
+                "object_tags": false,
+                "drop_raw_caption": false,
+                "text_aug": false,
+                "object_aug": false
+            },
+            "object_params": {
+                "input_objects": false,
+                "pseudo_labels": false,
+                "input_object_bboxs": false
+            },
+            "video_params": {
+                "extraction_fps": 25,
+                "extraction_res": 256,
+                "input_res": 224,
+                "num_frames": 4,
+                "stride": 1
+            }
+        }
+    }
+    ],
+    "optimizer": {
+        "type": "AdamW",
+        "args":{
+            "lr": 3e-5
+        }
+    },
+    "loss": {
+        "type": "NormSoftmaxLoss",
+        "args": {
+        }
+    },
+    "metrics": [
+        "t2v_metrics",
+        "v2t_metrics"
+     ],
+    "trainer": {
+        "epochs": 100,
+        "max_samples_per_epoch": 9000,
+        "save_dir": "exps",
+        "save_period": 5,
+        "verbosity": 2,
+        "monitor": "min val_loss_0",
+        "early_stop": 10,
+        "neptune": false
+    },
+    "visualizer": {
+        "type": "",
+        "args": {
+        }
+    }
+
+}
