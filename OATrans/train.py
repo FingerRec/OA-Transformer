@@ -1,7 +1,7 @@
 import argparse
 import collections
 from OATrans.data_loader import data_loader as module_data
-from OATrans import model as module_loss, model as module_metric, model as module_arch
+from OATrans.model import loss as module_loss, metric as module_metric, model as module_arch
 import utils.visualizer as module_vis
 from utils.util import replace_nested_dict_item
 from parse_config_dist_multi import ConfigParser

@@ -92,6 +92,8 @@ class FrozenInTime(BaseModel):
         text_data = data['text']
         video_data = data['video']
 
+        # print('video data:', type(video_data), video_data.shape)
+
         text_embeddings = self.compute_text(text_data)
         video_embeddings = self.compute_video(video_data)
 
@@ -112,7 +114,15 @@ class FrozenInTime(BaseModel):
         return text_embeddings
 
     def compute_video(self, video_data):
+        
+        # print('In compute video, video data:', type(video_data), video_data.shape)
+        
         video_embeddings = self.video_model(video_data)
+        
+        # print('After passing to video model, video embeds:', type(video_embeddings), len(video_embeddings))
+        # print(type(video_embeddings[0]), video_embeddings[0].shape, type(video_embeddings[1]), video_embeddings[1].shape)
+        
+        video_embeddings = video_embeddings[0]
         video_embeddings = self.vid_proj(video_embeddings)
         return video_embeddings
 
@@ -168,6 +178,10 @@ def sim_matrix(a, b, eps=1e-8):
     a_n, b_n = a.norm(dim=1)[:, None], b.norm(dim=1)[:, None]
     a_norm = a / torch.max(a_n, eps * torch.ones_like(a_n))
     b_norm = b / torch.max(b_n, eps * torch.ones_like(b_n))
+
+    # print('In sim matrix, a norm:', type(a_norm), a.shape, 'b norm:', type(b_norm), b_norm.shape)
+    # print('b norm transposed:', type(b_norm.transpose(0, 1)), b_norm.transpose(0, 1).shape)
+
     sim_mt = torch.mm(a_norm, b_norm.transpose(0, 1))
     return sim_mt
 
