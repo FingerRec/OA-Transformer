@@ -1,0 +1,112 @@
+{
+    "name": "full-cc-WebVid2M-1f-pti2k-normal",
+    "n_gpu": 8,
+    "arch": {
+        "type": "FrozenInTime",
+        "object": false,
+        "stream": 2,
+        "args": {
+            "video_params": {
+                "model": "SpaceTimeTransformer",
+                "arch_config": "base_patch16_224",
+                "num_frames": 4,
+                "pretrained": true,
+                "time_init": "zeros",
+                "two_outputs": false,
+                "object_pseudo_label": false
+            },
+            "object_params": {
+                "model": "",
+                "input_objects": false
+            },
+            "text_params": {
+                "model": "pretrained/distilbert-base-uncased",
+                "pretrained": true,
+                "input": "text",
+                "two_outputs": false
+            },
+            "projection": "minimal",
+            "load_checkpoint" : ""
+        }
+    },
+    "data_loader":
+            [
+                {
+                    "type": "MultiDistTextObjectVideoDataLoader",
+                    "args":{
+                        "dataset_name": "ConceptualCaptions3M",
+                        "data_dir": "CC3M/",
+                        "object_dir": "CC3M/1_frame_object",
+                        "reader": "cv2",
+                        "shuffle": true,
+                        "num_workers": 8,
+                        "batch_size": 16,
+                        "split": "train",
+                        "subsample": 1,
+                        "text_params": {
+                        },
+                        "object_params": {
+                        },
+                        "video_params": {
+                            "input_res": 224,
+                            "num_frames": 1,
+                            "loading": "lax"
+                        }
+                    }
+                },
+                {
+                    "type": "MultiDistTextObjectVideoDataLoader",
+                    "args":{
+                        "dataset_name": "WebVid",
+                        "data_dir": "WebVid",
+                        "object_dir": "WebVid/8_frame_object",
+                        "reader": "cv2",
+                        "shuffle": true,
+                        "num_workers": 8,
+                        "batch_size": 16,
+                        "split": "train",
+                        "cut": "2M",
+                        "subsample": 1,
+                        "text_params": {
+                        },
+                        "object_params": {
+                        },
+                        "video_params": {
+                            "input_res": 224,
+                            "num_frames": 4,
+                            "loading": "lax"
+                        }
+                    }
+                }
+            ],
+    "optimizer": {
+        "type": "AdamW",
+        "args":{
+            "lr": 2e-4
+        }
+    },
+    "loss": {
+        "type": "NormSoftmaxLoss",
+        "args": {
+        }
+    },
+    "metrics": [
+        "t2v_metrics",
+        "v2t_metrics"
+     ],
+    "trainer": {
+        "epochs": 100,
+        "max_samples_per_epoch": 1000000,
+        "save_dir": "exps/2stream_wtags",
+        "save_period": 5,
+        "verbosity": 2,
+        "monitor": "min val_loss_0",
+        "early_stop": 10,
+        "init_val": true,
+        "neptune": false
+    },
+    "visualizer": {
+        "type": ""
+    }
+
+}
