@@ -1,9 +1,13 @@
 ## Install
 
-- pytorch1.4+
-- cv2
-- ffmpeg
-
+```
+conda env create
+pip install decord
+pip install ftfy
+cd OATrans
+mkdir data;
+mkdir exps;
+```
 
 
 ## Pre-training
