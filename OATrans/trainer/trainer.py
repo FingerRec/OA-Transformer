@@ -147,7 +147,12 @@ class Trainer(BaseTrainer):
                         # This avoids using `DataParallel` in this case, and supposes the entire batch fits in one GPU.
                         text_embed, vid_embed = self.model.module(data, return_embeds=True)
                     else:
+                        # print('data:', len(data))
                         text_embed, vid_embed = self.model(data, return_embeds=True)
+                    
+                    # print('In _valid_epoch, text embed:', type(text_embed), text_embed.shape, 
+                    #     'video embed:', type(vid_embed), vid_embed.shape)
+                    
                     text_embed_arr[dl_idx].append(text_embed.cpu())
                     vid_embed_arr[dl_idx].append(vid_embed.cpu())
                     sims_batch = sim_matrix(text_embed, vid_embed)

@@ -16,12 +16,8 @@
                 "two_outputs": false,
                 "object_pseudo_label": false
             },
-            "object_params": {
-                "model": "",
-                "input_objects": false
-            },
             "text_params": {
-                "model": "pretrained/distilbert-base-uncased",
+                "model": "distilbert-base-uncased",
                 "pretrained": true,
                 "input": "text",
                 "two_outputs": false

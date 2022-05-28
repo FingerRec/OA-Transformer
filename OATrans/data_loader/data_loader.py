@@ -1,11 +1,11 @@
 from OATrans.base import BaseDataLoaderExplicitSplit, DistBaseDataLoaderExplicitSplit, MultiDistBaseDataLoaderExplicitSplit, BaseMultiDataLoader
-from OATrans.data_loader.data_loader import init_transform_dict
-from OATrans.data_loader.data_loader import ConceptualCaptions3M
-from OATrans.data_loader.data_loader import MSRVTT
-from OATrans.data_loader.data_loader import LSMDC
-from OATrans.data_loader.data_loader import WebVidObject
-from OATrans.data_loader.data_loader import MSVD
-from OATrans.data_loader.data_loader import DiDeMo
+from OATrans.data_loader.transforms import init_transform_dict
+from OATrans.data_loader.ConceptualCaptions_dataset import ConceptualCaptions3M
+from OATrans.data_loader.MSRVTT_dataset import MSRVTT
+from OATrans.data_loader.LSMDC_dataset import LSMDC
+from OATrans.data_loader.WebVid_dataset import WebVidObject
+from OATrans.data_loader.MSVD_dataset import MSVD
+from OATrans.data_loader.DiDeMo_dataset import DiDeMo
 
 
 def dataset_loader(dataset_name,
@@ -38,22 +38,22 @@ def dataset_loader(dataset_name,
     #  ...is this safe / or just lazy?
     if dataset_name == "MSRVTT":
         dataset = MSRVTT(**kwargs)
-    elif dataset_name == "SomethingSomethingV2":
-        dataset = SomethingSomethingV2(**kwargs)
-    elif dataset_name == "WebVid":
-        dataset = WebVid(**kwargs)
-    elif dataset_name == "ConceptualCaptions3M":
-        dataset = ConceptualCaptions3M(**kwargs)
-    elif dataset_name == "ConceptualCaptions12M":
-        dataset = ConceptualCaptions12M(**kwargs)
-    elif dataset_name == "LSMDC":
-        dataset = LSMDC(**kwargs)
-    elif dataset_name == "COCOCaptions":
-        dataset = COCOCaptions(**kwargs)
-    elif dataset_name == "MSVD":
-        dataset = MSVD(**kwargs)
-    else:
-        raise NotImplementedError(f"Dataset: {dataset_name} not found.")
+    # elif dataset_name == "SomethingSomethingV2":
+    #     dataset = SomethingSomethingV2(**kwargs)
+    # elif dataset_name == "WebVid":
+    #     dataset = WebVid(**kwargs)
+    # elif dataset_name == "ConceptualCaptions3M":
+    #     dataset = ConceptualCaptions3M(**kwargs)
+    # elif dataset_name == "ConceptualCaptions12M":
+    #     dataset = ConceptualCaptions12M(**kwargs)
+    # elif dataset_name == "LSMDC":
+    #     dataset = LSMDC(**kwargs)
+    # elif dataset_name == "COCOCaptions":
+    #     dataset = COCOCaptions(**kwargs)
+    # elif dataset_name == "MSVD":
+    #     dataset = MSVD(**kwargs)
+    # else:
+    #     raise NotImplementedError(f"Dataset: {dataset_name} not found.")
 
     return dataset
 

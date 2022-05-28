@@ -84,9 +84,13 @@ class ConfigParser:
             module_name = self[name][index]['type']
             module_args = dict(self[name][index]['args'])
 
+        # print('module name:', module_name)
+        # print('module args:', module_args)
+        # print('module:', module)
+
         # if parameter not in config subdict, then check if it's in global config.
         signature = inspect.signature(getattr(module, module_name).__init__)
-        print(module_name)
+        # signature = inspect.signature(getattr(OATrans.model.model, 'FrozenInTime').__init__)
         for param in signature.parameters.keys():
             if param not in module_args and param in self.config:
                 module_args[param] = self[param]
@@ -97,6 +101,9 @@ class ConfigParser:
             if module_name == 'TextObjectVideoDataLoader' and param == 'args':
                 module_args[param] = self.args
 
+        # print('args:', args)
+        # print('module args:', module_args)
+        
         return getattr(module, module_name)(*args, **module_args)
 
     def __getitem__(self, name):
